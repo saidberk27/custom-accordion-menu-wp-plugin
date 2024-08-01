@@ -1,4 +1,41 @@
 jQuery(document).ready(function ($) {
+    $.ajax({
+        url: ajax_object.ajax_url,
+        type: 'POST',
+        data: {
+            action: 'get_all_product_details'
+        },
+        success: function (response) {
+            if (response.success && response.data) {
+                response.data.forEach(function (product) {
+                    var productItem = $('.product-item[data-product-id="' + product.id + '"]');
+                    var attributeIcons = '';
+
+                    if (product.attributes && product.attributes.alerjen) {
+                        var alerjenler = product.attributes.alerjen[0].split('|').map(function (item) {
+                            return item.trim();
+                        });
+
+                        alerjenler.forEach(function (alerjen) {
+                            var iconPath = getAttributeIconPath(alerjen);
+                            if (iconPath) {
+                                attributeIcons += '<div class="attribute-icon-container">' +
+                                    '<img src="' + iconPath + '" alt="' + alerjen + '" class="attribute-icon">' + '</div>';
+                            }
+                        });
+                    }
+                    productItem.find('.product-allergens').html(attributeIcons);
+                });
+            } else {
+                console.error("Ürün attribute bilgileri alınırken bir hata oluştu.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX error: " + status + ": " + error);
+        }
+    });
+
+
     $('.custom-accordion .accordion-header').click(function () {
         $(this).next('.accordion-content').slideToggle();
     });

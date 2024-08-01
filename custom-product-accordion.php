@@ -164,5 +164,61 @@ function get_allergen_icon_url($allergen) {
     return isset($icon_paths[strtoupper($allergen)]) ? $icon_paths[strtoupper($allergen)] : '';
 }
 
+function get_all_product_details() {
+    $args = array(
+        'post_type' => 'product',
+        'posts_per_page' => -1
+    );
+
+    $products_query = new WP_Query($args);
+
+    $products_data = array();
+
+    if ($products_query->have_posts()) {
+        while ($products_query->have_posts()) {
+            $products_query->the_post();
+            $product_id = get_the_ID();
+            $product = wc_get_product($product_id);
+
+            $attributes = array();
+            $product_attributes = $product->get_attributes();
+
+            foreach ($product_attributes as $attribute_name => $attribute) {
+                if ($attribute_name === 'pa_alerjen' || $attribute_name === 'alerjen') {
+                    if ($attribute['is_taxonomy']) {
+                        $attribute_terms = wp_get_post_terms($product_id, $attribute_name, array('fields' => 'names'));
+                        if (!is_wp_error($attribute_terms)) {
+                            $attributes['alerjen'] = $attribute_terms;
+                        }
+                    } else {
+                        $attributes['alerjen'] = explode(', ', $product->get_attribute($attribute_name));
+                    }
+                }
+            }
+
+            if (empty($attributes['alerjen'])) {
+                $all_attributes = $product->get_attributes();
+                foreach ($all_attributes as $attr_name => $attr) {
+                    if (strtolower($attr_name) === 'alerjen') {
+                        $attributes['alerjen'] = explode('|', $attr->get_options()[0]);
+                        break;
+                    }
+                }
+            }
+
+            $products_data[] = array(
+                'id' => $product_id,
+                'attributes' => $attributes
+            );
+        }
+    }
+
+    wp_send_json_success($products_data);
+}
+
+add_action('wp_ajax_get_all_product_details', 'get_all_product_details');
+add_action('wp_ajax_nopriv_get_all_product_details', 'get_all_product_details');
+
+
 add_action('wp_ajax_get_product_details', 'get_product_details');
 add_action('wp_ajax_nopriv_get_product_details', 'get_product_details');    

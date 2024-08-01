@@ -207,9 +207,9 @@
 }
 
 .attribute-icon {
-    width: 48px;
+    width: 32px;
     /* Önceki 24px'in 3 katı */
-    height: 48px;
+    height: 32px;
     /* Önceki 24px'in 3 katı */
     margin-right: 3px;
     /* İkonlar arası boşluk */
