@@ -86,12 +86,11 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 100%;
 }
 
 .image-container {
     width: 100%;
-    /* 4:3 aspect ratio */
     position: relative;
     overflow: hidden;
 }
@@ -138,8 +137,6 @@
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Diğer stiller aynı kalabilir */
-
 #popup-title {
     text-align: center;
     padding: 15px 0;
@@ -164,7 +161,19 @@
     color: #e21833;
 }
 
-/* Circular Progress Bar Styles */
+.product-allergens {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.allergen-icon {
+    width: 16px;
+    height: 16px;
+    margin: 2px;
+}
+
 .circular-progress {
     position: absolute;
     top: 50%;
@@ -195,6 +204,41 @@
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
+}
+
+.attribute-icon {
+    width: 48px;
+    /* Önceki 24px'in 3 katı */
+    height: 48px;
+    /* Önceki 24px'in 3 katı */
+    margin-right: 3px;
+    /* İkonlar arası boşluk */
+    margin-bottom: 3px;
+    /* Alt satıra geçerse boşluk bırakır */
+}
+
+.attribute-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 5px 10px 5px;
+    /* Üst, sağ, alt, sol boşluk */
+}
+
+.attribute-name {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+#popup-attributes {
+    display: flex;
+    flex-wrap: wrap;
+    /* İkonlar sığmazsa alt satıra geçer */
+    justify-content: center;
+    /* İkonları yatayda ortalar */
+    margin-top: 15px;
+    /* Üst kısımdan boşluk */
 }
 
 @media (max-width: 1024px) {
