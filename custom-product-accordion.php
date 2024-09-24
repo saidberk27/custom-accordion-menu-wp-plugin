@@ -39,7 +39,7 @@ function custom_product_accordion_shortcode() {
                             global $product;
                             ?>
                             <div class="product-item" data-product-id="<?php echo get_the_ID(); ?>">
-                                <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'medium'); ?>" alt="<?php the_title(); ?>">
+                                <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>" alt="<?php the_title(); ?>">
                                 <h3><?php the_title(); ?></h3>
                                 <p class="price"><?php echo $product->get_price_html(); ?></p>
                                 <p class="description"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
